@@ -1,0 +1,4 @@
+json5
+httpx
+lxml
+requests
