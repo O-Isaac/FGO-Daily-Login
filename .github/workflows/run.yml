@@ -1,0 +1,26 @@
+name: FGO Login System
+
+on:
+  push:
+    branches: [ JP ]
+  pull_request:
+    branches: [ JP ]
+  schedule:
+    - cron: '30 10 * * *'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+  
+  steps:
+  - name: Install Requeriments
+    run: pip install -r https://raw.githubusercontent.com/O-Isaac/FGO-Daily-Login/master/requirements.txt
+
+  - name: Getting Lastest File From Repository
+    uses: actions/checkout@v2
+  
+  - name: Trying Login in Fate Grand Order
+    run: python3 main.py
