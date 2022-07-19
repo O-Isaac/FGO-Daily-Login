@@ -123,8 +123,8 @@ def webhook_discord(data: list) -> None:
                 "inline": True
                 },
                 {
-                "name": "Ap",
-                "value": f"{login.now_act}/{login.act_max}",
+                "name": "Ap Max",
+                "value": f"{login.act_max}",
                 "inline": True
                 }
             ],
