@@ -54,7 +54,7 @@ Add this enviroment variables into `Repository > settings > secrets > actions`
 | DISCORD_WEBHOOK | https://discord.com/api/webhooks/randomNumber/randomString |
 
 # Road Map
-- [ ] Perform Daily Friend Point Summons
+- [x] Perform Daily Friend Point Summons
 
 # Acknowledgments 
 - [hexstr](https://github.com/hexstr) author of FGO Daily Bonus
