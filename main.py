@@ -52,7 +52,7 @@ def main():
 
         for i in range(userNums):
             try:
-                instance = user(userIds[i], authKeys[i], secretKeys[i])
+                instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 instance.topLogin()
                 time.sleep(2)
