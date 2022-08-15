@@ -29,7 +29,7 @@ secretKeyNums = len(secretKeys)
 
 def get_assets_json(assetbundle):
     subprocess.run([asset_bundle_extractor, '-a',
-                   assetbundle, '-r', fate_region])
+                    assetbundle, '-r', fate_region])
 
 
 def get_latest_verCode():

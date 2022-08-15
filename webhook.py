@@ -25,7 +25,7 @@ def topLogin(data: list) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Daily Bonus",
+                "title": "FGO Daily Bonus - " + main.fate_region,
                 "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
@@ -109,14 +109,14 @@ def drawFP(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Daily Bonus",
-                "description": f"Scheluded Login Fate/Grand Order.\n\n{message_mission}",
+                "title": "FGO Daily Bonus - " + main.fate_region,
+                "description": f"Scheluded Friend Point Fate/Grand Order.\n\n{message_mission}",
                 "color": 5750876,
                 "fields": [
                     {
                         "name": "Gacha Result",
                         "value": f"{message_servant}",
-                        "inline": True
+                        "inline": False
                     }
                 ],
                 "thumbnail": {
