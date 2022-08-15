@@ -2,7 +2,7 @@ import json
 import binascii
 import requests
 import version
-import main;
+import main
 
 requests.urllib3.disable_warnings()
 session = requests.Session()
@@ -34,9 +34,10 @@ def set_latest_assets():
 
     # Get Latest Version of the data!
     version_str = version.get_version(region)
-    response = requests.get(server_addr_ + '/gamedata/top?appVer=' + version_str).text
+    response = requests.get(
+        server_addr_ + '/gamedata/top?appVer=' + version_str).text
     response_data = json.loads(response)["response"][0]["success"]
-    
+
     # Set AppVer, DataVer, DateVer
     app_ver_ = version_str
     data_ver_ = response_data['dataVer']
@@ -50,15 +51,17 @@ def set_latest_assets():
     with open(main.asset_bundle_json, "r") as data:
         assetbundle = json.load(data)
         get_folder_data(assetbundle)
-       
+
 
 def get_folder_data(assetbundle):
-    global asset_bundle_folder_ , data_server_folder_crc_
+    global asset_bundle_folder_, data_server_folder_crc_
 
     asset_bundle_folder_ = assetbundle['folderName']
-    data_server_folder_crc_ = binascii.crc32(assetbundle['folderName'].encode('utf8'))
-    
+    data_server_folder_crc_ = binascii.crc32(
+        assetbundle['folderName'].encode('utf8'))
+
 # ===== End =====
+
 
 httpheader = {
     'Accept-Encoding': 'gzip, identity',
@@ -68,8 +71,10 @@ httpheader = {
     'TE': 'identity',
 }
 
+
 def NewSession():
     return requests.Session()
+
 
 def PostReq(s, url, data):
     res = s.post(url, data=data, headers=httpheader, verify=False).json()
@@ -79,5 +84,5 @@ def PostReq(s, url, data):
         detail = res['response'][0]['fail']['detail']
         message = f'[ErrorCode: {res_code}]\n{detail}'
         raise Exception(message)
-    
+
     return res

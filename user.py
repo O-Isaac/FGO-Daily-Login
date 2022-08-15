@@ -4,8 +4,9 @@ import hashlib
 import base64
 from urllib.parse import quote_plus
 import fgourl
-import main
 import mytime
+import gacha
+import webhook
 
 
 class ParameterBuilder:
@@ -48,6 +49,7 @@ class ParameterBuilder:
         self.content_ += '&authCode=' + \
             quote_plus(base64.b64encode(
                 hashlib.sha1(temp.encode('utf-8')).digest()))
+
         return self.content_
 
     def Clean(self):
@@ -181,24 +183,49 @@ class user:
         else:
             DataWebhook.append("No Bonus")
 
-        server_now_time = mytime.TimeStampToString(data['cache']['serverTime'])
-        main.webhook_discord(DataWebhook)
+        webhook.topLogin(DataWebhook)
 
     def drawFP(self):
-        try:
-            self.builder_.AddParameter('storyAdjustIds', '[]')
-            self.builder_.AddParameter('gachaId', '1')
-            self.builder_.AddParameter('num', '1')
-            self.builder_.AddParameter('ticketItemId', '0')
-            self.builder_.AddParameter('shopIdIndex', '1')
-            self.builder_.AddParameter('gachaSubId', '246')
+        # This will change depends of the region
+        self.builder_.AddParameter('storyAdjustIds', '[]')
+        self.builder_.AddParameter('gachaId', '1')
+        self.builder_.AddParameter('num', '10')
+        self.builder_.AddParameter('ticketItemId', '0')
+        self.builder_.AddParameter('shopIdIndex', '1')
+        self.builder_.AddParameter('gachaSubId', '260')
 
-            data = self.Post(
-                f'{fgourl.server_addr_}/draw?_userId={self.user_id_}')
+        data = self.Post(
+            f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
 
-            print(data)
-        except Exception as ex:
-            print(ex)
+        responses = data['response']
+
+        servantArray = []
+        missionArray = []
+
+        for response in responses:
+            resCode = response['resCode']
+            resSuccess = response['success']
+
+            if (resCode != "00"):
+                continue
+
+            if "gachaInfos" in resSuccess:
+                for info in resSuccess['gachaInfos']:
+                    servantArray.append(
+                        gacha.gachaInfoServant(
+                            info['isNew'], info['objectId'], info['sellMana'], info['sellQp']
+                        )
+                    )
+
+            if "eventMissionAnnounce" in resSuccess:
+                for mission in resSuccess["eventMissionAnnounce"]:
+                    missionArray.append(
+                        gacha.EventMission(
+                            mission['message'], mission['progressFrom'], mission['progressTo'], mission['condition']
+                        )
+                    )
+
+            webhook.drawFP(servantArray, missionArray)
 
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')
