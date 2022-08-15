@@ -7,6 +7,7 @@ import fgourl
 import main
 import mytime
 
+
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
         self.uid_ = uid
@@ -44,7 +45,9 @@ class ParameterBuilder:
                 self.content_ += escaped_key + '=' + escaped_value
 
         temp += ':' + self.secret_key_
-        self.content_ += '&authCode=' + quote_plus(base64.b64encode(hashlib.sha1(temp.encode('utf-8')).digest()))
+        self.content_ += '&authCode=' + \
+            quote_plus(base64.b64encode(
+                hashlib.sha1(temp.encode('utf-8')).digest()))
         return self.content_
 
     def Clean(self):
@@ -60,13 +63,15 @@ class ParameterBuilder:
             ('verCode', fgourl.ver_code_),
         ]
 
+
 class Rewards:
     def __init__(self, stone, level, ticket):
         self.stone = stone
         self.level = level
         self.ticket = ticket
 
-class Login: 
+
+class Login:
     def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp):
         self.name = name
         self.login_days = login_days
@@ -100,17 +105,22 @@ class user:
         return res
 
     def topLogin(self):
-        DataWebhook = [] # This data will be use in discord webhook! 
+        DataWebhook = []  # This data will be use in discord webhook!
 
         lastAccessTime = self.builder_.parameter_list_[5][1]
-        userState = (-int(lastAccessTime) >> 2) ^ self.user_id_ & fgourl.data_server_folder_crc_
+        userState = (-int(lastAccessTime) >>
+                     2) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
-        self.builder_.AddParameter('assetbundleFolder', fgourl.asset_bundle_folder_)
+        self.builder_.AddParameter(
+            'assetbundleFolder', fgourl.asset_bundle_folder_)
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
-        data = self.Post(f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
 
-        self.name_ = hashlib.md5(data['cache']['replaced']['userGame'][0]['name'].encode('utf-8')).hexdigest()
+        data = self.Post(
+            f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
+
+        self.name_ = hashlib.md5(
+            data['cache']['replaced']['userGame'][0]['name'].encode('utf-8')).hexdigest()
         stone = data['cache']['replaced']['userGame'][0]['stone']
         lv = data['cache']['replaced']['userGame'][0]['lv']
         ticket = 0
@@ -121,7 +131,7 @@ class user:
                 break
 
         rewards = Rewards(stone, lv, ticket)
-        
+
         DataWebhook.append(rewards)
 
         login_days = data['cache']['updated']['userLogin'][0]['seqLoginCount']
@@ -135,12 +145,12 @@ class user:
         total_fp = data['cache']['replaced']['tblUserGame'][0]['friendPoint']
 
         login = Login(
-            self.name_, 
-            login_days, 
-            total_days, 
-            act_max, act_recover_at, 
-            now_act, 
-            add_fp, 
+            self.name_,
+            login_days,
+            total_days,
+            act_max, act_recover_at,
+            now_act,
+            add_fp,
             total_fp
         )
 
@@ -165,15 +175,27 @@ class user:
                 bonus_name = None
                 bonus_detail = None
 
-
-            bonus = Bonus(bonus_message, items, bonus_name, bonus_detail, items_camp_bonus)
+            bonus = Bonus(bonus_message, items, bonus_name,
+                          bonus_detail, items_camp_bonus)
             DataWebhook.append(bonus)
         else:
             DataWebhook.append("No Bonus")
 
-        
         server_now_time = mytime.TimeStampToString(data['cache']['serverTime'])
         main.webhook_discord(DataWebhook)
+
+    def drawFP(self):
+        self.builder_.AddParameter('storyAdjustIds', '[]')
+        self.builder_.AddParameter('gachaId', '1')
+        self.builder_.AddParameter('num', '1')
+        self.builder_.AddParameter('ticketItemId', '0')
+        self.builder_.AddParameter('shopIdIndex', '1')
+        self.builder_.AddParameter('gachaSubId', '246')
+
+        data = self.Post(
+            f'{fgourl.server_addr_}/draw?_userId={self.user_id_}')
+
+        print(data)
 
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')

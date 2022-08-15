@@ -1,19 +1,20 @@
 import os
 import traceback
 from typing import List
-import requests;
-import time;
-import json;
-import subprocess;
+import requests
+import time
+import json
+import subprocess
 import fgourl
 
-from user import user, Bonus, Rewards, Login;
+from user import user, Bonus, Rewards, Login
 
 root_path = os.getcwd()
 asset_bundle_json = os.path.join(root_path, "assetbundle.json")
-asset_bundle_extractor = os.path.join(root_path, "Asset Bundle Extractor", "Asset Bundle Extractor.exe")
+asset_bundle_extractor = os.path.join(
+    root_path, "Asset Bundle Extractor", "Asset Bundle Extractor.exe")
 
-# Enviroments Variables 
+# Enviroments Variables
 userIds = os.environ['userIds'].split(',')
 authKeys = os.environ['authKeys'].split(',')
 secretKeys = os.environ['secretKeys'].split(',')
@@ -28,8 +29,11 @@ userNums = len(userIds)
 authKeyNums = len(authKeys)
 secretKeyNums = len(secretKeys)
 
+
 def get_assets_json(assetbundle):
-    subprocess.run([asset_bundle_extractor, '-a', assetbundle, '-r', fate_region])
+    subprocess.run([asset_bundle_extractor, '-a',
+                   assetbundle, '-r', fate_region])
+
 
 def get_latest_verCode():
     endpoint = ""
@@ -43,6 +47,7 @@ def get_latest_verCode():
     response_data = json.loads(response)
 
     return response_data['verCode']
+
 
 def main():
     if userNums == authKeyNums and userNums == secretKeyNums:
@@ -58,16 +63,18 @@ def main():
                 time.sleep(2)
                 instance.topHome()
                 time.sleep(2)
+                instance.drawFP()
             except Exception as ex:
                 print(f'{i}th user login failed: {ex}')
+
 
 def webhook_discord(data: list) -> None:
     endpoint = webhook_discord_url
 
     rewards: Rewards = data[0]
     login: Login = data[1]
-    bonus: Bonus or str = data[2]    
-    
+    bonus: Bonus or str = data[2]
+
     messageBonus = ''
     nl = '\n'
 
@@ -76,61 +83,61 @@ def webhook_discord(data: list) -> None:
 
         if bonus.bonus_name != None:
             messageBonus += f"{nl}__{bonus.bonus_name}__{nl}{bonus.bonus_detail}{nl}```{nl.join(bonus.bonus_camp_items)}```"
-        
+
         messageBonus += "\n"
 
     jsonData = {
         "content": None,
         "embeds": [
             {
-            "title": "FGO Daily Bonus",
-            "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
-            "color": 563455,
-            "fields": [
-                {
-                "name": "Level",
-                "value": f"{rewards.level}",
-                "inline": True
-                },
-                {
-                "name": "Tickets",
-                "value": f"{rewards.ticket}",
-                "inline": True
-                },
-                {
-                "name": "Saint Quartz",
-                "value": f"{rewards.stone}",
-                "inline": True
-                },
-                {
-                "name": "Login Days",
-                "value": f"{login.login_days}",
-                "inline": True
-                },
-                {
-                "name": "Total Days",
-                "value": f"{login.total_days}",
-                "inline": True
-                },
-                {
-                "name": "Total Friend Points",
-                "value": f"{login.total_fp}",
-                "inline": True
-                },
-                {
-                "name": "Friend Points",
-                "value": f"+{login.add_fp}",
-                "inline": True
-                },
-                {
-                "name": "Ap Max",
-                "value": f"{login.act_max}",
-                "inline": True
+                "title": "FGO Daily Bonus",
+                "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
+                "color": 563455,
+                "fields": [
+                    {
+                        "name": "Level",
+                        "value": f"{rewards.level}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Tickets",
+                        "value": f"{rewards.ticket}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Saint Quartz",
+                        "value": f"{rewards.stone}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Login Days",
+                        "value": f"{login.login_days}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Total Days",
+                        "value": f"{login.total_days}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Total Friend Points",
+                        "value": f"{login.total_fp}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Friend Points",
+                        "value": f"+{login.add_fp}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Ap Max",
+                        "value": f"{login.act_max}",
+                        "inline": True
+                    }
+                ],
+                "thumbnail": {
+                    "url": "https://grandorder.wiki/images/thumb/3/3d/Icon_Item_Saint_Quartz.png/200px-Icon_Item_Saint_Quartz.png"
                 }
-            ],
-            "thumbnail": {
-                "url": "https://grandorder.wiki/images/thumb/3/3d/Icon_Item_Saint_Quartz.png/200px-Icon_Item_Saint_Quartz.png"
-            }
             }
         ],
         "attachments": []
