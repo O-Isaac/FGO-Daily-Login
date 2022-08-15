@@ -185,17 +185,20 @@ class user:
         main.webhook_discord(DataWebhook)
 
     def drawFP(self):
-        self.builder_.AddParameter('storyAdjustIds', '[]')
-        self.builder_.AddParameter('gachaId', '1')
-        self.builder_.AddParameter('num', '1')
-        self.builder_.AddParameter('ticketItemId', '0')
-        self.builder_.AddParameter('shopIdIndex', '1')
-        self.builder_.AddParameter('gachaSubId', '246')
+        try:
+            self.builder_.AddParameter('storyAdjustIds', '[]')
+            self.builder_.AddParameter('gachaId', '1')
+            self.builder_.AddParameter('num', '1')
+            self.builder_.AddParameter('ticketItemId', '0')
+            self.builder_.AddParameter('shopIdIndex', '1')
+            self.builder_.AddParameter('gachaSubId', '246')
 
-        data = self.Post(
-            f'{fgourl.server_addr_}/draw?_userId={self.user_id_}')
+            data = self.Post(
+                f'{fgourl.server_addr_}/draw?_userId={self.user_id_}')
 
-        print(data)
+            print(data)
+        except Exception as ex:
+            print(ex)
 
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')
