@@ -187,20 +187,16 @@ class user:
         webhook.topLogin(DataWebhook)
 
     def drawFP(self):
+        self.builder_.AddParameter('storyAdjustIds', '[]')
+        self.builder_.AddParameter('gachaId', '1')
+        self.builder_.AddParameter('num', '10')
+        self.builder_.AddParameter('ticketItemId', '0')
+        self.builder_.AddParameter('shopIdIndex', '1')
 
         if main.fate_region == "NA":
-            self.builder_.AddParameter('storyAdjustIds', '[]')
-            self.builder_.AddParameter('gachaId', '1')
-            self.builder_.AddParameter('num', '10')
-            self.builder_.AddParameter('ticketItemId', '0')
-            self.builder_.AddParameter('shopIdIndex', '1')
-            self.builder_.AddParameter('gachaSubId', '260')
+            self.builder_.AddParameter('gachaSubId', '0')  # 260
         else:
-            self.builder_.AddParameter('storyAdjustIds', '[]')
-            self.builder_.AddParameter('gachaId', '1')
-            self.builder_.AddParameter('num', '10')
-            self.builder_.AddParameter('shopIdIndex', '1')
-            self.builder_.AddParameter('gachaSubId', '246')
+            self.builder_.AddParameter('gachaSubId', '0')  # 246
 
         data = self.Post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
