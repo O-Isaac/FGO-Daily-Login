@@ -1,21 +1,55 @@
-name: FGO Login System
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python package
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
   pull_request:
-    branches: [master]
+    branches: [ master ]
   schedule:
-    - cron: "30 10 * * *"
+    - cron: '01 19 * * *'
+    - cron: "30 19 * * *"
+    - cron: "50 19 * * *"
+    - cron: "00 20 * * *"
+    - cron: "20 20 * * *"
+    - cron: "50 20 * * *"
+    - cron: "00 21 * * *"
+    - cron: "30 21 * * *"
+    - cron: "50 21 * * *"
+    - cron: "00 22 * * *"
+    - cron: "30 22 * * *"
+    - cron: "50 22 * * *"
+    - cron: "00 23 * * *"
+    - cron: "30 23 * * *"
+    - cron: "50 23 * * *"
+    - cron: "30 00 * * *"
+
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.8]
 
     steps:
+    - uses: actions/checkout@v2
+    - name: Test
+      run: |
+        python3 main.py
+      env:
+        userIds: ${{ secrets.GAME_USERIDS }}
+        authKeys: ${{ secrets.GAME_AUTHKEYS }}
+        secretKeys: ${{ secrets.GAME_SECRETKEYS }}
+        verCode: ${{ secrets.GAME_VERCODE }}
+        UserAgent: ${{ secrets.GAME_USERAGENT }}
+        TGBotToken: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TGAdminId: ${{ secrets.TELEGRAM_ADMIN_ID }}
+        GithubToken: ${{ secrets.VERY_IMPORTANT_TOKEN }}
+        GithubName: ${{ secrets.VERY_IMPORTANT_NAME }}
+steps:
       - name: Install Requeriments
         run: pip install -r https://raw.githubusercontent.com/O-Isaac/FGO-Daily-Login/master/requirements.txt
 
@@ -25,6 +59,7 @@ jobs:
       - name: Execute main script
         run: |
           python3 main.py
+    
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
