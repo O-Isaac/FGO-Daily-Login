@@ -56,6 +56,7 @@ Add this enviroment variables into `Repository > settings > secrets > actions`
 # Road Map
 - [x] Perform Daily Friend Point Summons
 - [ ] Claim all Saint Quartz and Tickets from gif box 
+- [ ] Make blue apple automatic
 
 # Acknowledgments 
 - [hexstr](https://github.com/hexstr) author of FGO Daily Bonus
