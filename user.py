@@ -194,7 +194,7 @@ class user:
         self.builder_.AddParameter('shopIdIndex', '1')
 
         if main.fate_region == "NA":
-            self.builder_.AddParameter('gachaSubId', '0')  # 260
+            self.builder_.AddParameter('gachaSubId', '265')  # 265 | 0
         else:
             self.builder_.AddParameter('gachaSubId', '0')  # 246
 
