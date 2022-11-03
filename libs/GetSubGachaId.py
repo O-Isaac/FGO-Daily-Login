@@ -14,4 +14,4 @@ def GetGachaSubIdFP(region):
         closedAt = gacha["closedAt"]
 
         if openedAt <= timeNow & timeNow <= closedAt:
-            return gacha["id"]
+            return str(gacha["id"])
