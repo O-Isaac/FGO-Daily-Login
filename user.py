@@ -197,9 +197,11 @@ class user:
         if main.fate_region == "NA":
             gachaSubId = GetGachaSubIdFP("NA")
             self.builder_.AddParameter('gachaSubId', gachaSubId)
+            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
         else:
             gachaSubId = GetGachaSubIdFP("JP")
-            self.builder_.AddParameter('gachaSubId', '0')  # 246
+            self.builder_.AddParameter('gachaSubId', gachaSubId)
+            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
         data = self.Post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
