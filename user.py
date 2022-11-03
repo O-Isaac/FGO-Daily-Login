@@ -2,13 +2,14 @@
 import uuid
 import hashlib
 import base64
-from urllib.parse import quote_plus
 import fgourl
 import mytime
 import gacha
 import webhook
 import main
 
+from urllib.parse import quote_plus
+from libs.GetSubGachaId import GetGachaSubIdFP
 
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
@@ -194,8 +195,10 @@ class user:
         self.builder_.AddParameter('shopIdIndex', '1')
 
         if main.fate_region == "NA":
-            self.builder_.AddParameter('gachaSubId', '267')  # 265 | 0
+            gachaSubId = GetGachaSubIdFP("NA")
+            self.builder_.AddParameter('gachaSubId', gachaSubId)
         else:
+            gachaSubId = GetGachaSubIdFP("JP")
             self.builder_.AddParameter('gachaSubId', '0')  # 246
 
         data = self.Post(
