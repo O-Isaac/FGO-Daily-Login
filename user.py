@@ -194,6 +194,10 @@ class user:
         data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}'))
         responses = data['response']
 
+        if main.fate_region != "JP":
+            main.logger.error("Region not supported.")
+            return
+
         for response in responses:
             resCode = response['resCode']
             resSuccess = response['success']
@@ -204,9 +208,7 @@ class user:
             
             if nid == "purchase" and resSuccess['purchaseName'] and resSuccess['purchaseNum']:
                 webhook.shop(resSuccess['purchaseName'], resSuccess['purchaseNum'])
-
-
-
+            
     def drawFP(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('gachaId', '1')
