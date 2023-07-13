@@ -193,6 +193,7 @@ class user:
 
         data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
         responses = data['response']
+        
 
         if main.fate_region != "JP":
             main.logger.error("Region not supported.")
@@ -205,9 +206,14 @@ class user:
 
             if (resCode != "00"):
                 continue
-            
-            if nid == "purchase" and resSuccess['purchaseName'] and resSuccess['purchaseNum']:
-                webhook.shop(resSuccess['purchaseName'], resSuccess['purchaseNum'])
+
+            if nid == "purchase":
+                if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
+                    purchaseName = resSuccess['purchaseName']
+                    purchaseNum = resSuccess['purchaseNum']
+
+                    main.logger.info(f"{purchaseNum}x {purchaseName} purchased!")
+                    webhook.shop(purchaseName, purchaseNum)
             
     def drawFP(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
