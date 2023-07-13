@@ -86,17 +86,18 @@ def topLogin(data: list) -> None:
 
 def shop(item: str, quantity: str) -> None:
     endpoint = main.webhook_discord_url
+    
     jsonData = {
         "content": None,
         "embeds": [
             {
                 "title": "FGO Daily Bonus - " + main.fate_region,
                 "description": f"Scheluded Blue Apple Fate/Grand Order.",
-                "color": 123969279,
+                "color": 5814783,
                 "fields": [
                     {
                         "name": f"Shop Pursache",
-                        "value": f"You exchange {40 * quantity}ap for {quantity}x {item}",
+                        "value": f"You exchange {40 * quantity}Ap for {quantity}x {item}",
                         "inline": False
                     }
                 ],
