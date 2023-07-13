@@ -57,6 +57,9 @@ def main():
                 logger.info('Throw daily friend summon!')
                 instance.drawFP()
                 time.sleep(2)
+                logger.info('Trying buy one blue apple!')
+                instance.buyBlueApple(1)
+                time.sleep(2)
             except Exception as ex:
                 logger.error(ex)
 
