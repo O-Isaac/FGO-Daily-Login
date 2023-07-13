@@ -191,7 +191,7 @@ class user:
         self.builder_.AddParameter('id', '13000000') # Shop Blue Apple In JP
         self.builder_.AddParameter('num', str(quantity))
 
-        data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}'))
+        data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
         responses = data['response']
 
         if main.fate_region != "JP":
