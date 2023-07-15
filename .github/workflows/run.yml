@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Install Requeriments
-        run: pip install -r https://raw.githubusercontent.com/O-Isaac/FGO-Daily-Login/master/requirements.txt
+        run: pip install -r https://raw.githubusercontent.com/O-Isaac/FGO-Daily-Login/8-blue-apple/requirements.txt
 
       - name: Gettings files from Repo
         uses: actions/checkout@v2
