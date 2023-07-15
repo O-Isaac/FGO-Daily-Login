@@ -75,6 +75,7 @@ def main():
                 logger.info('Throw daily friend summon!')
                 instance.drawFP()
                 time.sleep(2)
+                check_blue_apple_cron(instance)
             except Exception as ex:
                 logger.error(ex)
 
