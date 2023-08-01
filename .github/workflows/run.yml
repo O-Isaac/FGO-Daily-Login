@@ -35,3 +35,4 @@ jobs:
           fateRegion: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
 
+
