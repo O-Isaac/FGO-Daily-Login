@@ -51,6 +51,8 @@ def main():
     if userNums == authKeyNums and userNums == secretKeyNums and userNums == fateRegionsNums:
         for i in range(userNums):
             region = fate_region[i]
+
+            logger.info(f'Using game version {region}')
             logger.info('Getting Lastest Assets Info')
             fgourl.set_latest_assets(region)
             
