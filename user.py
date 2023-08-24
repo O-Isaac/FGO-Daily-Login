@@ -108,7 +108,7 @@ class user:
         self.builder_.Clean()
         return res
 
-    def topLogin(self):
+    def topLogin(self, region):
         DataWebhook = []  # This data will be use in discord webhook!
 
         lastAccessTime = self.builder_.parameter_list_[5][1]
@@ -185,16 +185,16 @@ class user:
         else:
             DataWebhook.append("No Bonus")
 
-        webhook.topLogin(DataWebhook)
+        webhook.topLogin(DataWebhook, region)
 
-    def drawFP(self):
+    def drawFP(self, region):
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('gachaId', '1')
         self.builder_.AddParameter('num', '10')
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
 
-        if main.fate_region == "NA":
+        if region == "NA":
             gachaSubId = GetGachaSubIdFP("NA")
             if gachaSubId is None:
                 gachaSubId = "0"  # or any other default value as a string
@@ -238,7 +238,7 @@ class user:
                         )
                     )
 
-        webhook.drawFP(servantArray, missionArray)
+        webhook.drawFP(servantArray, missionArray, region)
 
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')

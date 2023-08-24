@@ -23,13 +23,10 @@ user_agent_ = 'Dalvik/2.1.0 (Linux; U; Android 11; Pixel 5 Build/RD1A.201105.003
 
 
 # ==== User Info ====
-def set_latest_assets():
+def set_latest_assets(region):
     global app_ver_, data_ver_, date_ver_, asset_bundle_folder_, data_server_folder_crc_, ver_code_, server_addr_
 
-    region = main.fate_region
-
     # Set Game Server Depends of region
-
     if region == "NA":
         server_addr_ = "https://game.fate-go.us"
 
@@ -43,10 +40,10 @@ def set_latest_assets():
     app_ver_ = version_str
     data_ver_ = response_data['dataVer']
     date_ver_ = response_data['dateVer']
-    ver_code_ = main.get_latest_verCode()
+    ver_code_ = main.get_latest_verCode(region)
 
     # Use Asset Bundle Extractor to get Folder Name
-    assetbundle = CatAndMouseGame.getAssetBundle(response_data['assetbundle'])
+    assetbundle = CatAndMouseGame.getAssetBundle(response_data['assetbundle'], region)
     get_folder_data(assetbundle)
 
 

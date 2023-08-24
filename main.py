@@ -18,8 +18,7 @@ if user_agent != 'nullvalue':
     fgourl.user_agent_ = user_agent
 
 # Region - Enviroments Variables
-fate_regions = os.environ['fateRegion'].split(',')
-fate_region = ''
+fate_region = os.environ['fateRegion'].split(',')
 
 # Webhook - Enviroments Variables
 webhook_discord_url = os.environ['webhookDiscord']
@@ -28,16 +27,16 @@ webhook_discord_url = os.environ['webhookDiscord']
 userNums = len(userIds)
 authKeyNums = len(authKeys)
 secretKeyNums = len(secretKeys)
-fateRegionsNums = len(fate_regions)
+fateRegionsNums = len(fate_region)
 
 # Logger
 logger = logging.getLogger("FGO Daily Login")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
-def get_latest_verCode():
+def get_latest_verCode(region):
     endpoint = ""
 
-    if fate_region == "NA":
+    if region == "NA":
         endpoint += "https://raw.githubusercontent.com/O-Isaac/FGO-VerCode-extractor/NA/VerCode.json"
     else:
         endpoint += "https://raw.githubusercontent.com/O-Isaac/FGO-VerCode-extractor/JP/VerCode.json"
@@ -49,14 +48,11 @@ def get_latest_verCode():
 
 
 def main():
-    global fate_region
-
     if userNums == authKeyNums and userNums == secretKeyNums and userNums == fateRegionsNums:
         for i in range(userNums):
-            fate_region = fate_regions[i]
-
+            region = fate_region[i]
             logger.info('Getting Lastest Assets Info')
-            fgourl.set_latest_assets()
+            fgourl.set_latest_assets(region)
             
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
@@ -67,7 +63,7 @@ def main():
                 instance.topHome()
                 time.sleep(2)
                 logger.info('Throw daily friend summon!')
-                instance.drawFP()
+                instance.drawFP(region)
                 time.sleep(2)
             except Exception as ex:
                 logger.error(ex)

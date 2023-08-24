@@ -3,7 +3,7 @@ import requests
 import user
 
 
-def topLogin(data: list) -> None:
+def topLogin(data: list, region) -> None:
     endpoint = main.webhook_discord_url
 
     rewards: user.Rewards = data[0]
@@ -25,7 +25,7 @@ def topLogin(data: list) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Daily Bonus - " + main.fate_region,
+                "title": "FGO Daily Bonus - " + region,
                 "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
@@ -85,7 +85,7 @@ def topLogin(data: list) -> None:
     requests.post(endpoint, json=jsonData, headers=headers)
 
 
-def drawFP(servants, missions) -> None:
+def drawFP(servants, missions, region) -> None:
     endpoint = main.webhook_discord_url
 
     message_mission = ""
@@ -109,7 +109,7 @@ def drawFP(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Daily Bonus - " + main.fate_region,
+                "title": "FGO Daily Bonus - " + region,
                 "description": f"Scheluded Friend Point Fate/Grand Order.\n\n{message_mission}",
                 "color": 5750876,
                 "fields": [
