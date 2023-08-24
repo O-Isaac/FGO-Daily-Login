@@ -19,7 +19,7 @@ if user_agent != 'nullvalue':
 
 # Region - Enviroments Variables
 fate_regions = os.environ['fateRegion'].split(',')
-fate_region = NULL
+fate_region = ''
 
 # Webhook - Enviroments Variables
 webhook_discord_url = os.environ['webhookDiscord']
