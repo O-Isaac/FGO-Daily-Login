@@ -60,7 +60,7 @@ def main():
                 logger.info('Loggin into account!')
                 instance.topLogin(region)
                 time.sleep(2)
-                instance.topHome(region)
+                instance.topHome()
                 time.sleep(2)
                 logger.info('Throw daily friend summon!')
                 instance.drawFP(region)
