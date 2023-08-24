@@ -7,24 +7,32 @@ import user
 import coloredlogs
 import logging
 
-# Enviroments Variables
+# User - Enviroments Variables
 userIds = os.environ['userIds'].split(',')
 authKeys = os.environ['authKeys'].split(',')
 secretKeys = os.environ['secretKeys'].split(',')
-fate_region = os.environ['fateRegion']
+
+# User Agen - Enviroments Variables
+user_agent = os.environ['UserAgent']
+if user_agent != 'nullvalue':
+    fgourl.user_agent_ = user_agent
+
+# Region - Enviroments Variables
+fate_regions = os.environ['fateRegion'].split(',')
+fate_region = NULL
+
+# Webhook - Enviroments Variables
 webhook_discord_url = os.environ['webhookDiscord']
-UA = os.environ['UserAgent']
 
-if UA != 'nullvalue':
-    fgourl.user_agent_ = UA
-
+# Keys
 userNums = len(userIds)
 authKeyNums = len(authKeys)
 secretKeyNums = len(secretKeys)
+fateRegionsNums = len(fate_regions)
 
+# Logger
 logger = logging.getLogger("FGO Daily Login")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
-
 
 def get_latest_verCode():
     endpoint = ""
@@ -41,11 +49,15 @@ def get_latest_verCode():
 
 
 def main():
-    if userNums == authKeyNums and userNums == secretKeyNums:
-        logger.info('Getting Lastest Assets Info')
-        fgourl.set_latest_assets()
+    global fate_region
 
+    if userNums == authKeyNums and userNums == secretKeyNums and userNums == fateRegionsNums:
         for i in range(userNums):
+            fate_region = fate_regions[i]
+
+            logger.info('Getting Lastest Assets Info')
+            fgourl.set_latest_assets()
+            
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
@@ -59,7 +71,8 @@ def main():
                 time.sleep(2)
             except Exception as ex:
                 logger.error(ex)
-
+    else:
+        logger.error("The environment variables are misconfigured.")
 
 if __name__ == "__main__":
     main()
