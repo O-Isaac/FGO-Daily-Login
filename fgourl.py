@@ -16,7 +16,7 @@ date_ver_ = 0
 ver_code_ = ''
 asset_bundle_folder_ = ''
 data_server_folder_crc_ = 0
-server_addr_ = 'https://game.fate-go.jp'
+server_addr_ = ''
 github_token_ = ''
 github_name_ = ''
 user_agent_ = 'Dalvik/2.1.0 (Linux; U; Android 11; Pixel 5 Build/RD1A.201105.003.A1)'
@@ -29,6 +29,8 @@ def set_latest_assets(region):
     # Set Game Server Depends of region
     if region == "NA":
         server_addr_ = "https://game.fate-go.us"
+    else:
+        server_addr_ = 'https://game.fate-go.jp'
 
     # Get Latest Version of the data!
     version_str = version.get_version(region)
