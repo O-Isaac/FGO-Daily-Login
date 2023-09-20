@@ -2,14 +2,15 @@
 import uuid
 import hashlib
 import base64
-import fgourl
-import mytime
-import gacha
-import webhook
-import main
+
+import libs.utils.logs as Logger
+import libs.network.fgourl as fgourl
+import libs.utils.mytime as mytime
+import libs.models.gacha as gacha
+import libs.models.webhook as webhook
 
 from urllib.parse import quote_plus
-from libs.GetSubGachaId import GetGachaSubIdFP
+from libs.game.GetSubGachaId import GetGachaSubIdFP
 
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
@@ -96,7 +97,7 @@ class Bonus:
         self.bonus_camp_items = bonus_camp_items
 
 
-class user:
+class Client:
     def __init__(self, user_id: str, auth_key: str, secret_key: str):
         self.name_ = ''
         self.user_id_ = (int)(user_id)
@@ -108,7 +109,7 @@ class user:
         self.builder_.Clean()
         return res
 
-    def topLogin(self):
+    def topLogin(self, region: str):
         DataWebhook = []  # This data will be use in discord webhook!
 
         lastAccessTime = self.builder_.parameter_list_[5][1]
@@ -185,31 +186,30 @@ class user:
         else:
             DataWebhook.append("No Bonus")
 
-        webhook.topLogin(DataWebhook)
+        webhook.topLogin(DataWebhook, region)
 
-    def drawFP(self):
+    def drawFP(self, region: str):
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('gachaId', '1')
         self.builder_.AddParameter('num', '10')
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
 
-        if main.fate_region == "NA":
+        if region == "NA":
             gachaSubId = GetGachaSubIdFP("NA")
-            if gachaSubId is None:
-                gachaSubId = "0"  # or any other default value as a string
-            self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
         else:
             gachaSubId = GetGachaSubIdFP("JP")
-            if gachaSubId is None:
-                gachaSubId = "0"  # or any other default value as a string
-            self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
-        data = self.Post(
-            f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
+        if gachaSubId is None:
+            gachaSubId = "0"  # or any other default value as a string
+            
+        self.builder_.AddParameter('gachaSubId', gachaSubId)
+        
+        Logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
+        print(fgourl.server_addr_)
+
+        data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
         responses = data['response']
 
         servantArray = []

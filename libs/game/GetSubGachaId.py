@@ -1,7 +1,7 @@
 import requests
 import json
 
-from mytime import GetTimeStamp
+from libs.utils.mytime import GetTimeStamp
 
 # Get Friend Summon Gacha Sub Id
 def GetGachaSubIdFP(region):
@@ -16,7 +16,9 @@ def GetGachaSubIdFP(region):
 
         if openedAt <= timeNow & timeNow <= closedAt:
             p = int(gacha["priority"])
+            
             if(p > priority):
                 priority = p
                 goodGacha = gacha
+
     return str(goodGacha["id"])

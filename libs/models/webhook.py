@@ -1,10 +1,17 @@
-import main
+import os
 import requests
-import user
 
+import libs.models.user as user
+import libs.utils.logs as Logger
 
-def topLogin(data: list) -> None:
-    endpoint = main.webhook_discord_url
+endpoint = os.environ.get('webhookDiscord')
+
+def topLogin(data: list, region: str) -> None:
+    global endpoint
+
+    if endpoint is None:
+        Logger.info("Webhook endpoint is not preset, skipping send data...")
+        return
 
     rewards: user.Rewards = data[0]
     login: user.Login = data[1]
@@ -25,7 +32,7 @@ def topLogin(data: list) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Daily Bonus - " + main.fate_region,
+                "title": "FGO Daily Bonus - " + region,
                 "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
@@ -84,9 +91,12 @@ def topLogin(data: list) -> None:
 
     requests.post(endpoint, json=jsonData, headers=headers)
 
+def drawFP(servants, missions, region: str) -> None:
+    global endpoint
 
-def drawFP(servants, missions) -> None:
-    endpoint = main.webhook_discord_url
+    if endpoint is None:
+        Logger.info("Webhook endpoint is not preset, skipping send data...")
+        return
 
     message_mission = ""
     message_servant = ""
@@ -109,7 +119,7 @@ def drawFP(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Daily Bonus - " + main.fate_region,
+                "title": "FGO Daily Bonus - " + region,
                 "description": f"Scheluded Friend Point Fate/Grand Order.\n\n{message_mission}",
                 "color": 5750876,
                 "fields": [

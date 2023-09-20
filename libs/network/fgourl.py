@@ -1,11 +1,12 @@
 import json
 import binascii
 import requests
-import version
-import main
-import CatAndMouseGame
+import libs.utils.version as version
+import libs.encryption.CatAndMouseGame as CatAndMouseGame
+import libs.utils.verCode as VerCode
 
 requests.urllib3.disable_warnings()
+
 session = requests.Session()
 session.verify = False
 
@@ -23,30 +24,29 @@ user_agent_ = 'Dalvik/2.1.0 (Linux; U; Android 11; Pixel 5 Build/RD1A.201105.003
 
 
 # ==== User Info ====
-def set_latest_assets():
+def set_latest_assets(region: str):
     global app_ver_, data_ver_, date_ver_, asset_bundle_folder_, data_server_folder_crc_, ver_code_, server_addr_
 
-    region = main.fate_region
+    # Set region to uppercase
+    region = region.upper()
 
     # Set Game Server Depends of region
-
     if region == "NA":
         server_addr_ = "https://game.fate-go.us"
 
     # Get Latest Version of the data!
     version_str = version.get_version(region)
-    response = requests.get(
-        server_addr_ + '/gamedata/top?appVer=' + version_str).text
+    response = requests.get(f"{server_addr_}/gamedata/top?appVer={version_str}").text
     response_data = json.loads(response)["response"][0]["success"]
 
     # Set AppVer, DataVer, DateVer
     app_ver_ = version_str
     data_ver_ = response_data['dataVer']
     date_ver_ = response_data['dateVer']
-    ver_code_ = main.get_latest_verCode()
+    ver_code_ = VerCode.get_latest_verCode(region)
 
     # Use Asset Bundle Extractor to get Folder Name
-    assetbundle = CatAndMouseGame.getAssetBundle(response_data['assetbundle'])
+    assetbundle = CatAndMouseGame.getAssetBundle(response_data['assetbundle'], region)
     get_folder_data(assetbundle)
 
 
