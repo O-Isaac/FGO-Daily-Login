@@ -10,6 +10,9 @@ class Tests(unittest.TestCase):
         if secret is None:
             return False
         
+        if len(secret) == 0:
+            return False
+        
         return True
 
     def certificate_structure(self):
