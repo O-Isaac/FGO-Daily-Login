@@ -18,13 +18,7 @@ It's simple, all you need to do is navigate to the following path and get the fo
 | NA | `android/data/com.aniplex.fategrandorder.en/files/data/` | 54cc790bf952ea710ed7e8be08049531 |
 | JP | `android/data/com.aniplex.fategrandorder/files/data/` | 54cc790bf952ea710ed7e8be08049531 |
 
-# Decript your data
-Be careful with this data, you should not pass this data to other person, this is private data.
-
-1. Open the file with notopad or text editor and copy from **ZSv** to end!
-2. Go to [Compiler Online](https://dotnetfiddle.net/ug7C0x) and paste the string
-3. You will get all necesary data to fill Secrets
-4. Get your user agent of you device (phone or emulator) from [this page](https://www.whatismybrowser.com/detect/what-is-my-user-agent/)
+Copy from ZSv to end, should be ZSv/WkOGiQ25eqY+A5Lgln3pq91NidrEBM/BezdP0gbYJFS6y...
 
 # Discord Webhook 
 To create webhook discord you need create a server in discord and create a text channel, in settings of that channel search
@@ -46,11 +40,7 @@ you must change endpoint in main.py in the function `get_latest_verCode`
 Add this enviroment variables into `Repository > settings > secrets > actions`
 | Secret | Example |
 | --- | --- |
-| GAME_AUTHKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
-| GAME_SECRETKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
-| GAME_USERAGENT | Dalvik/2.1.0 (Linux; U; Android 11; Pixel 5 Build/RD1A.201105.003.A1) or Your User Agent |
-| GAME_USERIDS | 60951234,60951235 |
-| GAME_REGION | NA or JP (Must be in upper case) |
+| GAME_CERT | ZSv/WkOGiQ25eqY+A5Lgln3pq91NidrEBM/BezdP0gbYJFS6y...,ZSv/WkOGiQ25eqY+A5Lgln3pq91NidrEBM/BezdP0gbYJFS6y... |
 | DISCORD_WEBHOOK | https://discord.com/api/webhooks/randomNumber/randomString |
 
 # Road Map
