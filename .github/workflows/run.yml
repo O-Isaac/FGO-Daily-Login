@@ -26,11 +26,11 @@ jobs:
       - name: Testing secrets are configured
         run: python -m unittest tests/test-secrets.py
         env:
-          certificate: ${{ secrets.GAME_CERT }}
-          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+          certificate: ${{ secrets.GAME_CERT || None }}
+          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK || None }}
 
       - name: Execute main script
         run: python3 main.py
         env:
-          certificate: ${{ secrets.GAME_CERT }}
-          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+          certificate: ${{ secrets.GAME_CERT || None }}
+          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK || None }}
