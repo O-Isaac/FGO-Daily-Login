@@ -17,19 +17,20 @@ jobs:
         python-version: [3.8]
 
     steps:
-      - name: Install Requeriments
-        run: pip install -r https://raw.githubusercontent.com/O-Isaac/FGO-Daily-Login/master/requirements.txt
-
       - name: Gettings files from Repo
         uses: actions/checkout@v2
+      
+      - name: Install Requeriments
+        run: pip install -r requirements.txt
+      
+      - name: Testing secrets are configured
+        run: python -m unittest tests/test-secrets.py
+        env:
+          certificate: ${{ secrets.GAME_CERT }}
+          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Execute main script
-        run: |
-          python3 main.py
+        run: python3 main.py
         env:
-          userIds: ${{ secrets.GAME_USERIDS }}
-          authKeys: ${{ secrets.GAME_AUTHKEYS }}
-          secretKeys: ${{ secrets.GAME_SECRETKEYS }}
-          UserAgent: ${{ secrets.GAME_USERAGENT }}
-          fateRegion: ${{ secrets.GAME_REGION }}
+          certificate: ${{ secrets.GAME_CERT }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}

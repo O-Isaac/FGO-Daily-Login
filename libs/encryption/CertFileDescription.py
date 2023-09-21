@@ -3,7 +3,7 @@ import json
 
 from pyDes import triple_des, CBC, PAD_PKCS5
 
-def Decrypt(cert):
+def Decrypt(cert: str):
     bytesCertificate = base64.b64decode(cert)
     bytes1 = bytes("b5nHjsMrqaeNliSs3jyOzgpD", encoding="utf-8")
     bytes2 = bytes("wuD6keVr", encoding="utf-8")

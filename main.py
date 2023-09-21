@@ -2,12 +2,7 @@ import os
 import libs.utils.logs as Logger
 import libs.encryption.CertFileDescription as CertFileDescryption
 import libs.game.Client as Game
-
-def getRegion(userCreateServer: str):
-    if userCreateServer == "game.fate-go.us/":
-        return "NA"
-    
-    return "JP"
+import libs.utils.region as Region
 
 def main():
     certificate = os.environ.get('certificate')
@@ -25,8 +20,7 @@ def main():
         userId = cert_data.get('userId')
         authKey = cert_data.get('authKey')
         secretKey = cert_data.get('secretKey')
-        region = getRegion(userCreateServer)
-
+        region = Region.fromUserCreateServer(userCreateServer)
         Game.Login(userId, authKey, secretKey, region)
 
 if __name__ == "__main__":

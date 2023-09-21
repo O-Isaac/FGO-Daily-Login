@@ -1,1 +1,3 @@
-tests
+.venv
+.vscode
+.pytest_cache
