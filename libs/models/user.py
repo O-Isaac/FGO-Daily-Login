@@ -207,8 +207,6 @@ class Client:
         
         Logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
-        print(fgourl.server_addr_)
-
         data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
         responses = data['response']
 
