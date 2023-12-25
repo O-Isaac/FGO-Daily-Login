@@ -2,9 +2,9 @@ name: FGO Login System
 
 on:
   push:
-    branches: [master]
+    branches: [13-simplify-process-to-add-secrets]
   pull_request:
-    branches: [master]
+    branches: [13-simplify-process-to-add-secrets]
   schedule:
     - cron: "30 10 * * *"
   workflow_dispatch:
