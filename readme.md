@@ -1,3 +1,6 @@
+> [!CAUTION]  
+> This project will no longer be maintained and will be archived, as it represents a time and research investment that I no longer wish to pursue. With that being said, the project will be archived.
+
 <img width="100%" style="border: 1px solid black" src="https://i.imgur.com/bre34Xl.png">
 
 # FGO Daily Login
